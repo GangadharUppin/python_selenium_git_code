@@ -16,23 +16,41 @@ pipeline {
 
         stage('Set Up Python Environment') {
             steps {
-                // Install Python and pip if not already installed (optional)
-                // Create virtual environment and activate it
-                sh '''
-                    python -m venv ${VENV_DIR}
-                    . ${VENV_DIR}/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                '''
+                script {
+                    if (isUnix()) {
+                        sh '''
+                            python3 -m venv ${VENV_DIR}
+                            . ${VENV_DIR}/bin/activate
+                            pip install --upgrade pip
+                            pip install -r requirements.txt
+                        '''
+                    } else {
+                        bat '''
+                            python -m venv %VENV_DIR%
+                            call %VENV_DIR%\\Scripts\\activate
+                            python -m pip install --upgrade pip
+                            pip install -r requirements.txt
+                        '''
+                    }
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                    . ${VENV_DIR}/bin/activate
-                    pytest tests/ --maxfail=1 --disable-warnings --tb=short
-                '''
+                script {
+                    if (isUnix()) {
+                        sh '''
+                            . ${VENV_DIR}/bin/activate
+                            pytest tests/ --maxfail=1 --disable-warnings --tb=short
+                        '''
+                    } else {
+                        bat '''
+                            call %VENV_DIR%\\Scripts\\activate
+                            pytest tests/ --maxfail=1 --disable-warnings --tb=short
+                        '''
+                    }
+                }
             }
         }
     }
@@ -49,3 +67,4 @@ pipeline {
         }
     }
 }
+
