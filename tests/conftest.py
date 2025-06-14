@@ -1,13 +1,30 @@
-from selenium import webdriver
 import pytest
-import time
 import logging
+from selenium import webdriver
+
+# Create a session-level fixture to initialize the browser only once
+@pytest.fixture(scope='session')
+def session_driver():
+    logging.info('[Session Setup] Launching browser...')
+    driver = webdriver.Chrome()
+    yield driver
+    logging.info('[Session Teardown] Closing browser...')
+    driver.quit()
+
+# Automatically applied to every class — inject driver/logging
+@pytest.fixture(scope='class', autouse=True)
+def auto_assign_driver(request, session_driver):
+    request.cls.driver = session_driver
+    request.cls.logging = logging
 
 @pytest.fixture(scope='class')
-def session_driver(request):
-    logging.info('setup of driver fixture.')
-    driver = webdriver.Chrome()
-    request.cls.driver = driver
+def open_flipkart(request, session_driver):
+    logging.info(f'open flipkart setup')
+    request.cls.driver.get("https://www.flipkart.com/")
     yield
-    logging.info('teardown of driver fixture.')
+    request.cls.driver.close()
+    logging.info(f'open flipkart teardown')
 
+
+
+#
