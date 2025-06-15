@@ -18,7 +18,11 @@ WORKDIR /app
 RUN echo "Working dir is: $(pwd)"
 
 # Clone the repo
-RUN git clone --branch ${BRANCH} ${REPO_URL} .
+#RUN git clone --branch ${BRANCH} ${REPO_URL} .
+
+ARG GITHUB_TOKEN
+RUN git clone --branch master https://${GITHUB_TOKEN}@github.com/GangadharUppin/python_selenium_git_code.git .
+
 
 # Set up virtual environment and install dependencies
 RUN python -m venv $VENV_DIR && \
