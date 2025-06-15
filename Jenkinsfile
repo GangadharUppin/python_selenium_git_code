@@ -2,7 +2,8 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
-            dir '.' // Assumes Dockerfile is in repo root
+            //dir '.' // Assumes Dockerfile is in repo root
+            dir '/c/Users/ACER/.jenkins/workspace/Python_Selenium/'
             additionalBuildArgs '--no-cache' // optional to force rebuild
         }
     }

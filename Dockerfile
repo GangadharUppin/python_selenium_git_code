@@ -4,6 +4,9 @@ FROM python:3.12-slim
 # Set working directory inside the container
 WORKDIR /app
 
+# print pwd
+RUN pwd
+
 # Environment settings for cleaner Python logs and faster installs
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
