@@ -28,7 +28,13 @@ RUN python -m venv $VENV_DIR && \
     . $VENV_DIR/bin/activate && \
     pip install --upgrade pip && \
     pip install -r requirements.txt \
-    
+
+# Install latest Google Chrome
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google.gpg \
+ && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+ && apt-get update \
+ && apt-get install -y google-chrome-stable
+
 # Install Chromedriver (automatically match latest Chrome version)
 RUN CHROME_VERSION=$(google-chrome --version | grep -oP '[0-9.]+' | head -1) && \
     CHROMEDRIVER_VERSION=$(curl -sS "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION%.*}") && \
