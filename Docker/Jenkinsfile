@@ -1,13 +1,15 @@
 pipeline {
     agent any
-
+    environment {
+        GITHUB_TOKEN_IS_HERE = credentials('GITHUB_TOKEN') // from Jenkins credentials
+    }
     stages {
         stage('Build Docker Image') {
             steps {
                 script {
                     // Navigate to the Dockerfile directory
                     dir('Docker') {
-                        dockerImage = docker.build("python-selenium-tests")
+                        dockerImage = docker.build("python-selenium-tests", "--build-arg GITHUB_TOKEN=$GITHUB_TOKEN_IS_HERE .")
                     }
                 }
             }
