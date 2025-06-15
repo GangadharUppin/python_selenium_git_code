@@ -9,7 +9,9 @@ pipeline {
                 script {
                     // Navigate to the Dockerfile directory
                     dir('Docker') {
-                        dockerImage = docker.build("python-selenium-tests", "--build-arg GITHUB_TOKEN=$GITHUB_TOKEN_IS_HERE .")
+                           dockerImage = docker.build("python-selenium-tests")
+//                         dockerImage = docker.build("python-selenium-tests", "--build-arg GITHUB_TOKEN=$GITHUB_TOKEN_IS_HERE .")
+
                     }
                 }
             }
