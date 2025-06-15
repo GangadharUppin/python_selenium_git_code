@@ -5,7 +5,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("python-selenium-tests")
+                    // Navigate to the Dockerfile directory
+                    dir('Docker') {
+                        dockerImage = docker.build("python-selenium-tests")
+                    }
                 }
             }
         }
