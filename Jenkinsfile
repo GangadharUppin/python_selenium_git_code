@@ -23,8 +23,8 @@ pipeline {
         }
 
         stage('Set Up Python Environment') {
-            echo 'setup python environment'
             steps {
+                 echo 'setup python environment'
                 script {
                     if (isUnix()) {
                         sh '''
