@@ -27,7 +27,17 @@ RUN git clone --branch ${BRANCH} ${REPO_URL} .
 RUN python -m venv $VENV_DIR && \
     . $VENV_DIR/bin/activate && \
     pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r requirements.txt \
+    
+# Install Chromedriver (automatically match latest Chrome version)
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '[0-9.]+' | head -1) && \
+    CHROMEDRIVER_VERSION=$(curl -sS "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_${CHROME_VERSION%.*}") && \
+    curl -sS -o /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip" && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm -rf /tmp/chromedriver.zip /usr/local/bin/chromedriver-linux64
+
 
 # Run tests
 # CMD ["/bin/bash", "-c", ". /venv/bin/activate && pytest tests/ --maxfail=1 --disable-warnings --tb=short"]

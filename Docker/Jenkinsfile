@@ -10,33 +10,19 @@ pipeline {
             steps {
                 script {
                     def imageName = "my-python-test-image"
-                    // Build the image
-                    bat "docker build -t ${imageName} -f Docker/Dockerfile ."
-                    // Run the image (which triggers CMD inside Dockerfile)
-                    bat "docker run --rm ${imageName}"
+
+                    if (isUnix()) {
+                        // For Linux/macOS
+                        sh "docker build -t ${imageName} -f Docker/Dockerfile ."
+                        sh "docker run --rm ${imageName}"
+                    } else {
+                        // For Windows
+                        bat "docker build -t ${imageName} -f Docker/Dockerfile ."
+                        bat "docker run --rm ${imageName}"
+                    }
                 }
             }
         }
-//         stage('Build Docker Image') {
-//             steps {
-//                 script {
-//                     // Navigate to the Dockerfile directory
-//                     dir('Docker') {
-//                         dockerImage = docker.build("python-selenium-tests")
-//                         // To use a private repo with token, uncomment below and comment the above line
-//                         // dockerImage = docker.build("python-selenium-tests", "--build-arg GITHUB_TOKEN=${GITHUB_TOKEN_IS_HERE} .")
-//                     }
-//                 }
-//             }
-//         }
-//
-//          stage('Run Tests in Docker') {
-//             steps {
-//                 script {
-//                     dockerImage.run()
-//                 }
-//             }
-//          }
     }
 
     post {
