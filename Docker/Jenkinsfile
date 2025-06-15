@@ -11,7 +11,7 @@ pipeline {
                 script {
                     def imageName = "my-python-test-image"
                     // Build the image
-                    sh "docker build -t ${imageName} Docker\Dockerfile"
+                    sh "docker build -t ${imageName} Docker/Dockerfile"
                     // Run the image (which triggers CMD inside Dockerfile)
                     sh "docker run --rm ${imageName}"
                 }
