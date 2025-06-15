@@ -17,7 +17,6 @@ WORKDIR /app
 
 RUN echo "Working dir is: $(pwd)"
 
- Clone the repo
 RUN git clone --branch ${BRANCH} ${REPO_URL} .
 
 #ARG GITHUB_TOKEN
