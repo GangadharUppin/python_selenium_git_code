@@ -2,8 +2,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
-//             dir '.' // Assumes Dockerfile is in repo root
-            dir "${pwd()}"  // Ensures Jenkins uses absolute path
+            dir '.' // Assumes Dockerfile is in repo root
             additionalBuildArgs '--no-cache' // optional to force rebuild
         }
     }
