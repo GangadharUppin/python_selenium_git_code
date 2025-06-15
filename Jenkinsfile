@@ -2,7 +2,8 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
-            dir '.' // Assumes Dockerfile is in repo root
+//             dir '.' // Assumes Dockerfile is in repo root
+            dir "${pwd()}"  // Ensures Jenkins uses absolute path
             additionalBuildArgs '--no-cache' // optional to force rebuild
         }
     }
@@ -16,11 +17,13 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
+                echo 'clone repo'
                 git branch: "${BRANCH}", url: "${REPO_URL}"
             }
         }
 
         stage('Set Up Python Environment') {
+            echo 'setup python environment'
             steps {
                 script {
                     if (isUnix()) {
