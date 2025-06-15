@@ -1,11 +1,12 @@
 pipeline {
-    agent {
-        dockerfile {
-            filename 'Dockerfile'
-            //dir '.' // Assumes Dockerfile is in repo root
-            additionalBuildArgs '--no-cache' // optional to force rebuild
-        }
-    }
+       agent any  // use any available Windows agent
+//     agent {
+//         dockerfile {
+//             filename 'Dockerfile'
+//             //dir '.' // Assumes Dockerfile is in repo root
+//             additionalBuildArgs '--no-cache' // optional to force rebuild
+//         }
+//     }
 
     environment {
         REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
