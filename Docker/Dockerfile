@@ -30,4 +30,4 @@ RUN python -m venv $VENV_DIR && \
     pip install -r requirements.txt
 
 # Run tests
-CMD ["/bin/bash", "-c", ". /venv/bin/activate && pytest tests/ --maxfail=1 --disable-warnings --tb=short"]
+# CMD ["/bin/bash", "-c", ". /venv/bin/activate && pytest tests/ --maxfail=1 --disable-warnings --tb=short"]

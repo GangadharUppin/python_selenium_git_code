@@ -20,11 +20,12 @@ pipeline {
         stage('Run Tests in Docker') {
             steps {
                 script {
-                    dockerImage.run()
+                    dockerImage.inside {
+                        sh 'pytest tests/ --maxfail=1 --disable-warnings --tb=short'
+                    }
                 }
             }
         }
-    }
 
     post {
         always {
