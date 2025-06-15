@@ -18,16 +18,14 @@ pipeline {
                 }
             }
         }
-//
-//         stage('Run Tests in Docker') {
-//             steps {
-//                 script {
-//                     dockerImage.inside {
-//                         sh 'pytest tests/ --maxfail=1 --disable-warnings --tb=short'
-//                     }
-//                 }
-//             }
-//         }
+
+         stage('Run Tests in Docker') {
+            steps {
+                script {
+                    dockerImage.run()
+                }
+            }
+         }
     }
 
     post {
