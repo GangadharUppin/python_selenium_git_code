@@ -11,13 +11,13 @@ def session_driver():
     # Create a temporary directory for user data
     # user_data_dir = tempfile.mkdtemp()
     #
-    options = Options()
+    # options = Options()
     # options.add_argument(f'--user-data-dir={user_data_dir}')
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+    # options.add_argument("--headless=new")
+    # options.add_argument("--no-sandbox")
+    # options.add_argument("--disable-dev-shm-usage")
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome()
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
