@@ -41,9 +41,6 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
     apt-get install -y ./google-chrome-stable_current_amd64.deb && \
     rm google-chrome-stable_current_amd64.deb
 
-
-
-
 # Optional: Check Chrome version (for debugging)
 RUN google-chrome --version
 
