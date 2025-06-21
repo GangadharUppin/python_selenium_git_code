@@ -8,15 +8,6 @@ from selenium.webdriver.chrome.options import Options
 @pytest.fixture(scope='session')
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
-    # Create a temporary directory for user data
-    # user_data_dir = tempfile.mkdtemp()
-    #
-    # options = Options()
-    # options.add_argument(f'--user-data-dir={user_data_dir}')
-    # options.add_argument("--headless=new")
-    # options.add_argument("--no-sandbox")
-    # options.add_argument("--disable-dev-shm-usage")
-
     driver = webdriver.Chrome()
     yield driver
     logging.info('[Session Teardown] Closing browser...')
