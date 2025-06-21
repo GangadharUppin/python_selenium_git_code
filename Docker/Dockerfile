@@ -62,6 +62,8 @@ RUN apt-get update && \
 # Optional: Check Chrome version (for debugging)
 RUN google-chrome --version
 
+RUN apt-get update && apt-get install -y git && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Print working directory
 RUN echo "Working dir is: $(pwd)"
 
