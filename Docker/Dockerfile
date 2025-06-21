@@ -11,7 +11,6 @@ ENV BRANCH=master
 
 # Set working directory
 WORKDIR /app
-FROM python:3.12-slim
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -34,7 +33,9 @@ RUN apt-get update && apt-get install -y \
     libxcomposite1 \
     libxdamage1 \
     libxrandr2 \
-    xdg-utils
+    xdg-utils \
+    git && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Chrome
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
@@ -43,9 +44,6 @@ RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd6
 
 # Optional: Check Chrome version (for debugging)
 RUN google-chrome --version
-
-
-RUN apt-get update && apt-get install -y git && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Print working directory
 RUN echo "Working dir is: $(pwd)"
@@ -58,9 +56,6 @@ RUN python -m venv $VENV_DIR && \
     . $VENV_DIR/bin/activate && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
-
-# Optional cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set command to run tests
 CMD ["/venv/bin/pytest", "tests/", "--maxfail=1", "--disable-warnings", "--tb=short"]
