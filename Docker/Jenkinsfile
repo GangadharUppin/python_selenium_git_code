@@ -18,7 +18,8 @@ pipeline {
                     } else {
                         // For Windows
                         echo "Start of building docker image."
-                        bat "docker build -t ${imageName} -f Docker/Dockerfile ."
+                        bat "docker build --no-cache -t my-python-test-image -f Docker/Dockerfile ."
+//                         bat "docker build -t ${imageName} -f Docker/Dockerfile ."
                         echo "Dcoker image is built."
                         bat "docker run --rm ${imageName}"
                         echo "end of of building docker image."
