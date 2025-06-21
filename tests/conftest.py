@@ -15,7 +15,6 @@ def session_driver():
     options.add_argument(f'--user-data-dir={user_data_dir}')
 
     driver = webdriver.Chrome(options=options)
-    driver = webdriver.Chrome()
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
