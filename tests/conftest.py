@@ -40,7 +40,7 @@ def open_flipkart(request, session_driver):
     logging.info(f'open flipkart setup')
     request.cls.driver.get("https://www.flipkart.com/")
     yield
-    request.cls.driver.close()
+    # request.cls.driver.close()
     logging.info(f'open flipkart teardown')
 
 @pytest.fixture(scope='class')
