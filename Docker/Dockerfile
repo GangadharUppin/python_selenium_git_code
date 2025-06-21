@@ -52,4 +52,4 @@ RUN python -m venv $VENV_DIR && \
 RUN echo "Working dir is: $(pwd)"
 
 # Default command to run tests
-CMD ["/venv/bin/pytest", "-v", "tests/test_amazon.py", "--maxfail=1", "--disable-warnings", "--tb=short"]
+CMD ["/venv/bin/pytest", "-v", "tests", "--maxfail=1", "--disable-warnings", "--tb=short"]
