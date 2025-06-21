@@ -38,6 +38,8 @@ RUN google-chrome --version
 # Print working directory
 RUN echo "Working dir is: $(pwd)"
 
+RUN apt-get install -y psmisc  # for `pkill`
+
 # Clone your repo
 RUN git clone --branch ${BRANCH} ${REPO_URL} .
 
@@ -48,6 +50,6 @@ RUN python -m venv $VENV_DIR && \
     pip install -r requirements.txt
 
 # Set command to run tests
-CMD /bin/bash -c "pkill chrome || true && /venv/bin/pytest tests/ --maxfail=1 --disable-warnings --tb=short"
+# CMD /bin/bash -c "pkill chrome || true && /venv/bin/pytest tests/ --maxfail=1 --disable-warnings --tb=short"
 
-# CMD ["/venv/bin/pytest", "tests/", "--maxfail=1", "--disable-warnings", "--tb=short"]
+CMD ["/venv/bin/pytest", "tests/", "--maxfail=1", "--disable-warnings", "--tb=short"]
