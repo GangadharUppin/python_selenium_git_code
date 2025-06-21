@@ -48,4 +48,6 @@ RUN python -m venv $VENV_DIR && \
     pip install -r requirements.txt
 
 # Set command to run tests
-CMD ["/venv/bin/pytest", "tests/", "--maxfail=1", "--disable-warnings", "--tb=short"]
+CMD /bin/bash -c "pkill chrome || true && /venv/bin/pytest tests/ --maxfail=1 --disable-warnings --tb=short"
+
+# CMD ["/venv/bin/pytest", "tests/", "--maxfail=1", "--disable-warnings", "--tb=short"]
