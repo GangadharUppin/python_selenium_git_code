@@ -48,5 +48,5 @@ def open_amazon(request, session_driver):
     logging.info(f'open amazon setup')
     request.cls.driver.get("https://www.amazon.com/")
     yield
-    request.cls.driver.close()
+    # request.cls.driver.close()
     logging.info(f'open amazon teardown')
