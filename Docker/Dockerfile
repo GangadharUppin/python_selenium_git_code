@@ -12,44 +12,35 @@ ENV BRANCH=master
 # Set working directory
 WORKDIR /app
 
-
-# Copy requirements.txt into the container
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
+# Install required system packages
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     curl \
-    ca-certificates && \
-    curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg && \
+    ca-certificates \
+    git \
+    psmisc \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Google Chrome
+RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux-keyring.gpg && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && apt-get install -y google-chrome-stable && \
-    google-chrome --version
-
-RUN apt-get update && \
-    apt-get install -y git && \
-    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Install Chrome
-RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
-    rm google-chrome-stable_current_amd64.deb
-
 
 # Optional: Check Chrome version (for debugging)
 RUN google-chrome --version
 
-# Print working directory
-RUN echo "Working dir is: $(pwd)"
+# Clone your repo into a temporary directory and move it to /app
+RUN git clone --branch ${BRANCH} ${REPO_URL} /tmp/repo && \
+    cp -r /tmp/repo/* /app/ && \
+    rm -rf /tmp/repo
 
-RUN apt-get install -y psmisc  # for `pkill`
+# Copy requirements.txt only if it's not already in the repo
+# COPY requirements.txt .  # Skip this if it's already present in the repo
 
-# Clone your repo
-RUN git clone --branch ${BRANCH} ${REPO_URL} .
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set up virtual environment and install dependencies
 RUN python -m venv $VENV_DIR && \
@@ -57,7 +48,8 @@ RUN python -m venv $VENV_DIR && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Set command to run tests
-# CMD /bin/bash -c "pkill chrome || true && /venv/bin/pytest tests/ --maxfail=1 --disable-warnings --tb=short"
+# Optional: Print working directory
+RUN echo "Working dir is: $(pwd)"
 
+# Default command to run tests
 CMD ["/venv/bin/pytest", "tests/", "--maxfail=1", "--disable-warnings", "--tb=short"]
