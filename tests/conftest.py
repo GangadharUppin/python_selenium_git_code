@@ -9,10 +9,13 @@ from selenium.webdriver.chrome.options import Options
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
     # Create a temporary directory for user data
-    user_data_dir = tempfile.mkdtemp()
-
+    # user_data_dir = tempfile.mkdtemp()
+    #
     options = Options()
-    options.add_argument(f'--user-data-dir={user_data_dir}')
+    # options.add_argument(f'--user-data-dir={user_data_dir}')
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
     driver = webdriver.Chrome(options=options)
     yield driver
