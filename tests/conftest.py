@@ -8,18 +8,16 @@ from selenium.webdriver.chrome.options import Options
 @pytest.fixture(scope='session')
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
+    temp_profile = tempfile.mkdtemp()
     options = Options()
 
-    # Headless mode (optional, can be disabled)
+    # Ensuring a unique user-data-dir
+    options.add_argument(f"--user-data-dir={temp_profile}")
     options.add_argument("--headless=new")
-
-    # Recommended for Docker/CI/Linux environments
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-
-    # Use a clean user-data-dir
-    temp_profile = tempfile.mkdtemp()
-    options.add_argument(f"--user-data-dir={temp_profile}")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-extensions")
     driver = webdriver.Chrome(options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
