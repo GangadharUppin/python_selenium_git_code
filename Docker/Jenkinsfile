@@ -10,15 +10,18 @@ pipeline {
             steps {
                 script {
                     def imageName = "my-python-test-image"
-
+                    echo "Build and Run Docker."
                     if (isUnix()) {
                         // For Linux/macOS
                         sh "docker build -t ${imageName} -f Docker/Dockerfile ."
                         sh "docker run --rm ${imageName}"
                     } else {
                         // For Windows
+                        echo "Start of building docker image."
                         bat "docker build -t ${imageName} -f Docker/Dockerfile ."
+                        echo "Dcoker image is built."
                         bat "docker run --rm ${imageName}"
+                        echo "end of of building docker image."
                     }
                 }
             }
