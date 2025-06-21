@@ -36,8 +36,8 @@ RUN git clone --branch ${BRANCH} ${REPO_URL} /tmp/repo && \
     cp -r /tmp/repo/* /app/ && \
     rm -rf /tmp/repo
 
-# Copy requirements.txt only if it's not already in the repo
-COPY requirements.txt .
+Copy requirements.txt
+#COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
