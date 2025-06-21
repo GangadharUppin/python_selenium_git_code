@@ -8,10 +8,10 @@ from selenium.webdriver.chrome.options import Options
 @pytest.fixture(scope='session')
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
-    options = Options()
-    user_data_dir = tempfile.mkdtemp()
-    options.add_argument(f'--user-data-dir={user_data_dir}')
-    driver = webdriver.Chrome(options=options)
+    # options = Options()
+    # user_data_dir = tempfile.mkdtemp()
+    # options.add_argument(f'--user-data-dir={user_data_dir}')
+    driver = webdriver.Chrome()
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
