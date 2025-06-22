@@ -6,8 +6,8 @@ LABEL maintainer="gangadharuppin66@gnmail.com"
 
 # Environment variables
 ENV VENV_DIR=/venv
-ENV REPO_URL=https://github.com/GangadharUppin/python_selenium_git_code.git
-ENV BRANCH=master
+#ENV REPO_URL=https://github.com/GangadharUppin/python_selenium_git_code.git
+#ENV BRANCH=master
 
 # Set working directory
 WORKDIR /app
