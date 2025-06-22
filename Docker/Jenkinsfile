@@ -22,7 +22,7 @@ pipeline {
                     } else {
                         // For Windows
                         echo "Start of building docker image."
-                        bat "docker build --no-cache -t my-python-test-image -f Docker/Dockerfile ."
+                        bat "docker build --no-cache -t ${IMAGE_NAME}  -f Docker/Dockerfile ."
                         // bat "docker build -t ${IMAGE_NAME} -f Docker/Dockerfile ."
                         echo "Docker image is built."
                         bat "docker run --rm ${IMAGE_NAME}"
@@ -34,10 +34,10 @@ pipeline {
         stage("Run pytest testcase") {
             steps{
                 script{
-                    def workspacePath = pwd().replace('\\', '/').replace('C:', '/c')
-                    echo "workspacePath = ${workspacePath}"
-                    docker.image("${env.IMAGE_NAME}").inside("-v ${workspacePath}:/app -w /app") {
-                        bat """
+//                     def workspacePath = pwd().replace('\\', '/').replace('C:', '/c')
+//                     echo "workspacePath = ${workspacePath}"
+                    docker.image("${env.IMAGE_NAME}").inside("-w /app/tests") {
+                        sh """
                         pytest -vsm "${params.test_marker}"
                         """
                     }
