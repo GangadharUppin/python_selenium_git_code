@@ -1,3 +1,5 @@
+def imageName = "my-python-test-image"  // Global variable
+
 pipeline {
     agent any
 
@@ -12,7 +14,7 @@ pipeline {
         stage('Build and Run Docker') {
             steps {
                 script {
-                    def imageName = "my-python-test-image"
+//                     def imageName = "my-python-test-image"
                     echo "Build and Run Docker."
                     if (isUnix()) {
                         // For Linux/macOS
