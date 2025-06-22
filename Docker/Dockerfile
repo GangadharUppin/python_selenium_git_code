@@ -32,15 +32,17 @@ RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dea
 RUN google-chrome --version
 
 # Clone your repo into a temporary directory and move it to /app
-RUN git clone --branch ${BRANCH} ${REPO_URL} /tmp/repo && \
-    cp -r /tmp/repo/* /app/ && \
-    rm -rf /tmp/repo
+#RUN git clone --branch ${BRANCH} ${REPO_URL} /tmp/repo && \
+#    cp -r /tmp/repo/* /app/ && \
+#    rm -rf /tmp/repo
 
-# Copy requirements.txt only if it's not already in the repo
 #COPY requirements.txt .
 
+COPY . /app
+
+
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+#RUN pip install --no-cache-dir -r requirements.txt
 
 # Set up virtual environment and install dependencies
 RUN python -m venv $VENV_DIR && \

@@ -6,6 +6,11 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', credentialsId: 'GITHUB_TOKEN_IS_HERE', url: 'https://github.com/GangadharUppin/python_selenium_git_code.git'
+            }
+        }
         stage('Build and Run Docker') {
             steps {
                 script {
