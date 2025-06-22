@@ -1,9 +1,12 @@
+import time
+
 import pytest
 import logging
 from selenium import webdriver
 import tempfile
 from selenium.webdriver.chrome.options import Options
 
+from pom.amazon_homepage import *
 from utils import Utils
 
 
@@ -16,7 +19,7 @@ def session_driver():
 
     # Ensuring a unique user-data-dir
     options.add_argument(f"--user-data-dir={temp_profile}")
-    options.add_argument("--headless=new")
+    # options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
@@ -30,9 +33,9 @@ def session_driver():
 # Automatically applied to every class — inject driver/logging
 @pytest.fixture(scope='class', autouse=True)
 def auto_assign_driver(request, session_driver):
-    utils = Utils()
     request.cls.driver = session_driver
     request.cls.logging = logging
+    utils = Utils(request.cls.logging, request.cls.driver)
     request.cls.utils = utils
 
 @pytest.fixture(scope='class')
@@ -47,6 +50,9 @@ def open_flipkart(request, session_driver):
 def open_amazon(request, session_driver):
     logging.info(f'open amazon setup')
     request.cls.driver.get("https://www.amazon.com/")
+    if request.cls.utils.is_ele_present(login):
+        request.cls.utils.is_ele_present(login).click()
+
     yield
     # request.cls.driver.close()
     logging.info(f'open amazon teardown')
