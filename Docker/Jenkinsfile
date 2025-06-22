@@ -36,7 +36,7 @@ pipeline {
                 script{
                     def workspacePath = pwd().replace('\\', '/').replace('C:', '/c')
 
-                    docker.image("${imageName}").inside("-v ${workspacePath}:/app -w /app") {
+                    docker.image("${IMAGE_NAME}").inside("-v ${workspacePath}:/app -w /app") {
                         sh """
                         pytest -vsm "${params.test_marker}"
                         """
