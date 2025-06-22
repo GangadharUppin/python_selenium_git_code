@@ -1,5 +1,3 @@
-def imageName = "my-python-test-image"  // Global variable
-
 pipeline {
     agent any
 
@@ -8,25 +6,26 @@ pipeline {
     }
     environment {
         GITHUB_TOKEN_IS_HERE = credentials('GITHUB_TOKEN') // from Jenkins credentials
+        IMAGE_NAME = "my-python-test-image"
     }
 
     stages {
         stage('Build and Run Docker') {
             steps {
                 script {
-//                     def imageName = "my-python-test-image"
+//                     def IMAGE_NAME = "my-python-test-image"
                     echo "Build and Run Docker."
                     if (isUnix()) {
                         // For Linux/macOS
-                        sh "docker build -t ${imageName} -f Docker/Dockerfile ."
-                        sh "docker run --rm ${imageName}"
+                        sh "docker build -t ${IMAGE_NAME} -f Docker/Dockerfile ."
+                        sh "docker run --rm ${IMAGE_NAME}"
                     } else {
                         // For Windows
                         echo "Start of building docker image."
                         bat "docker build --no-cache -t my-python-test-image -f Docker/Dockerfile ."
-                        // bat "docker build -t ${imageName} -f Docker/Dockerfile ."
+                        // bat "docker build -t ${IMAGE_NAME} -f Docker/Dockerfile ."
                         echo "Docker image is built."
-                        bat "docker run --rm ${imageName}"
+                        bat "docker run --rm ${IMAGE_NAME}"
                         echo "End of building docker image."
                     }
                 }
@@ -35,9 +34,10 @@ pipeline {
         stage("Run pytest testcase") {
             steps{
                 script{
-                    docker.image("${imageName}").inside{
-                        sh
-                        """
+                    def workspacePath = pwd().replace('\\', '/').replace('C:', '/c')
+
+                    docker.image("${imageName}").inside("-v ${workspacePath}:/app -w /app") {
+                        sh """
                         pytest -vsm "${params.test_marker}"
                         """
                     }
