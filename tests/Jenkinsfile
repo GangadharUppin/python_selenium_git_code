@@ -13,12 +13,12 @@ pipeline {
                     echo "Build and Run Docker."
                     if (isUnix()) {
                         // For Linux/macOS
-                        sh "docker build -t ${imageName} -f Docker/Dockerfile ."
+                        sh "docker build -t ${imageName} -f tests/Dockerfile ."
                         sh "docker run --rm ${imageName}"
                     } else {
                         // For Windows
                         echo "Start of building docker image."
-                        bat "docker build --no-cache -t my-python-test-image -f Docker/Dockerfile ."
+                        bat "docker build --no-cache -t my-python-test-image -f tests/Dockerfile ."
 //                      bat "docker build -t ${imageName} -f Docker/Dockerfile ."
                         echo "Dcoker image is built."
                         bat "docker run --rm ${imageName}"
