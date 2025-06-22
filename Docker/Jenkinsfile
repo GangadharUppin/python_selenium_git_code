@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'test_marker', defaultValue: 'smoke', description: 'Pytest marker to run test basd on marker')
+    }
     environment {
         GITHUB_TOKEN_IS_HERE = credentials('GITHUB_TOKEN') // from Jenkins credentials
     }
@@ -27,11 +30,24 @@ pipeline {
                 }
             }
         }
+        stage("Run pytest testcase") {
+            steps{
+                script{
+                    docker.image("${IMAGE_NAME}").inside{
+                        sh
+                        """
+                        pytest -vsm "${params.test_marker}"
+                        """
+                    }
+                }
+            }
+        }
     }
 
     post {
         always {
             echo 'Cleaning up...'
+            junit '**/test-results/*.xml'
         }
         success {
             echo 'Build and tests successful.'

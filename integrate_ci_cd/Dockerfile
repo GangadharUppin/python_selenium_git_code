@@ -54,4 +54,4 @@ RUN echo "Working dir is: $(pwd)"
 RUN echo "Files in /app/tests:" && ls -la /app/tests
 
 # Default command to run tests
-CMD ["/venv/bin/pytest", "-v", "tests", "--maxfail=1", "--disable-warnings", "--tb=short"]
+#CMD ["/venv/bin/pytest", "-v", "tests", "--maxfail=1", "--disable-warnings", "--tb=short"]
