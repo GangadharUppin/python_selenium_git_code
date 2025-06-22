@@ -33,7 +33,7 @@ pipeline {
         stage("Run pytest testcase") {
             steps{
                 script{
-                    docker.image("${IMAGE_NAME}").inside{
+                    docker.image("${imageName}").inside{
                         sh
                         """
                         pytest -vsm "${params.test_marker}"
