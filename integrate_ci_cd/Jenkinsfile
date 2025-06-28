@@ -1,25 +1,14 @@
 pipeline {
-
-    agent { label 'linux' }   // Use your EC2 agent label
-
+    agent any
     stages {
-        stage("Now clone the repo") {
+        stage('Checkout') {
             steps {
-//                 sh 'rm -rf python_selenium_git_code && git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
-                   sh 'git --version'
+                git(
+                    url: 'https://github.com/GangadharUppin/python_selenium_git_code.git',
+                    branch: 'master',
+//                     credentialsId: 'your-credential-id' // if private repo
+                )
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Cleaning up...'
-        }
-        success {
-            echo 'Build and tests successful.'
-        }
-        failure {
-            echo 'Build or tests failed.'
         }
     }
 }
