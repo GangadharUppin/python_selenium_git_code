@@ -1,10 +1,13 @@
 pipeline {
-    agent { label 'ec2' }  // must match the label of your EC2 node
+    agent { label 'ec2' }  // Replace with the actual label of your EC2 agent
 
     stages {
-        stage('Git Clone') {
+        stage('Verify Node') {
             steps {
-                git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git'
+                sh 'echo "Running on EC2"'
+                sh 'uname -a'
+                sh 'whoami'
+                sh 'which git'
             }
         }
     }
