@@ -4,6 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo 'checkout job'
+                sh 'pwd && ls -l'
                 git(
                     url: 'https://github.com/GangadharUppin/python_selenium_git_code.git',
                     branch: 'master',
