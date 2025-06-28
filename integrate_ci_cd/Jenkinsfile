@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+   agent { label 'ec2' } // Use EC2 node label here
 
     environment {
         GITHUB_TOKEN_IS_HERE = credentials('GITHUB_TOKEN') // from Jenkins credentials
