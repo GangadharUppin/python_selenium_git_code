@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'ec2' }  // Replace with the actual label of your EC2 agent
+    agent { label 'linux' }  // Replace with the actual label of your EC2 agent
 
     stages {
         stage('Verify Node') {
