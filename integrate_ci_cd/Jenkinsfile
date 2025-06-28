@@ -5,7 +5,8 @@ pipeline {
     stages {
         stage("Now clone the repo") {
             steps {
-                sh 'rm -rf python_selenium_git_code && git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
+//                 sh 'rm -rf python_selenium_git_code && git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
+                   sh 'git --version'
             }
         }
     }
