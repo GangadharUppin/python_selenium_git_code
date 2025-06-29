@@ -34,6 +34,10 @@ pipeline {
                     // For Linux/macOS
                     sh "docker build -t ${IMAGE_NAME} -f integrate_ci_cd/Dockerfile ."
                     sh "docker run --rm ${IMAGE_NAME}"
+                    echo "Docker image is built."
+    //              bat "docker run --rm ${IMAGE_NAME}"
+                    sh "docker run --rm ${IMAGE_NAME} ${testCommand}"
+                    echo "End of building docker image."
                 } else {
                     // For Windows
                     echo "Start of building docker image."
