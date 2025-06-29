@@ -1,6 +1,10 @@
 pipeline {
        agent { label 'ubuntu' }  // Label of your EC2 agent
 
+   parameters {
+        string(name: 'test_marker', defaultValue: 'smoke', description: 'Pytest marker to run test basd on marker')
+    }
+
     environment {
         REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
         IMAGE_NAME = "my-python-test-image"
