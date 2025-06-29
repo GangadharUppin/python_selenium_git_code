@@ -1,14 +1,22 @@
 pipeline {
     agent any
 
-//     environment {
-//         REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
-//     }
+    environment {
+        REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
+    }
 
     stages {
         stage('Clone Repository') {
             steps {
-                echo "Cloning repo!"
+                script {
+                    if (isUnix()) {
+                        // For Linux/Unix-based agents
+                        sh "git clone ${REPO_URL}"
+                    } else {
+                        // For Windows agents
+                        bat "git clone ${REPO_URL}"
+                    }
+                }
             }
         }
 
