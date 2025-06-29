@@ -1,5 +1,6 @@
 pipeline {
-    agent any
+//     agent any
+       agent { label 'ubuntu' }  // Label of your EC2 agent
 
     environment {
         REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
