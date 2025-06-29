@@ -1,16 +1,13 @@
 pipeline {
-    agent { label 'ubuntu' } // matches your EC2 agent label
+    agent {
+        label 'ubuntu' // This should match the label of your Ubuntu EC2 agent
+    }
 
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
+            echo 'now we are cloning repo'
             steps {
-                echo 'checkout job'
-                sh 'pwd && ls -l'
-                git(
-                    url: 'https://github.com/GangadharUppin/python_selenium_git_code.git',
-                    branch: 'master',
-//                     credentialsId: 'your-credential-id' // if private repo
-                )
+                sh 'git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
             }
         }
     }
