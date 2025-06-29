@@ -1,13 +1,18 @@
 pipeline {
-    agent {
-        label 'ubuntu' // This should match the label of your Ubuntu EC2 agent
-    }
+    agent any
 
     stages {
         stage('Clone Repository') {
-            echo 'now we are cloning repo'
             steps {
-                sh 'git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
+                script {
+                    if (isUnix()) {
+                        echo 'linux OS'
+                        sh 'git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
+                    } else {
+                        echo 'window os'
+                        bat 'git clone https://github.com/GangadharUppin/python_selenium_git_code.git'
+                    }
+                }
             }
         }
     }
