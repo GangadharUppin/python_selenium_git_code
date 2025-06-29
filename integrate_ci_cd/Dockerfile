@@ -6,8 +6,8 @@ LABEL maintainer="gangadharuppin66@gnmail.com"
 
 # Environment variables
 ENV VENV_DIR=/venv
-ENV REPO_URL=https://github.com/GangadharUppin/python_selenium_git_code.git
-ENV BRANCH=master
+#ENV REPO_URL=https://github.com/GangadharUppin/python_selenium_git_code.git
+#ENV BRANCH=master
 
 # Set working directory
 WORKDIR /app
@@ -32,15 +32,17 @@ RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dea
 RUN google-chrome --version
 
 # Clone your repo into a temporary directory and move it to /app
-RUN git clone --branch ${BRANCH} ${REPO_URL} /tmp/repo && \
-    cp -r /tmp/repo/* /app/ && \
-    rm -rf /tmp/repo
+#RUN git clone --branch ${BRANCH} ${REPO_URL} /tmp/repo && \
+#    cp -r /tmp/repo/* /app/ && \
+#    rm -rf /tmp/repo
 
-# Copy requirements.txt only if it's not already in the repo
 #COPY requirements.txt .
 
+COPY . /app
+
+
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+#RUN pip install --no-cache-dir -r requirements.txt
 
 # Set up virtual environment and install dependencies
 RUN python -m venv $VENV_DIR && \
@@ -51,7 +53,7 @@ RUN python -m venv $VENV_DIR && \
 # Optional: Print working directory
 RUN echo "Working dir is: $(pwd)"
 
-RUN echo "Files in /app/tests:" && ls -la /app/tests
+RUN echo "Listing contents of /app:" && ls -al /app
 
 # Default command to run tests
 CMD ["/venv/bin/pytest", "-v", "tests", "--maxfail=1", "--disable-warnings", "--tb=short"]
