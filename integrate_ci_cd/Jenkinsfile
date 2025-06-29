@@ -2,26 +2,19 @@ pipeline {
     agent any
 
     environment {
-        EC2_USER = 'ubuntu'
-        EC2_IP = '3.110.29.209'
-        SSH_CRED = 'cdd60e36-f3e6-44e2-a70c-4e00e446b106'
         REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
     }
 
     stages {
-        stage('Run Tests on EC2') {
+        stage('Clone Repository') {
             steps {
-                sshagent(credentials: [env.SSH_CRED]) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_IP} '
-                        rm -rf python_selenium_git_code &&
-                        git clone ${REPO_URL} &&
-                        cd python_selenium_git_code &&
-                        pip3 install -r requirements.txt &&
-                        pytest
-                    '
-                    """
-                }
+                git url: "${REPO_URL}"
+            }
+        }
+
+        stage('Print Message') {
+            steps {
+                echo "Repository cloned successfully!"
             }
         }
     }
