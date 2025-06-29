@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
+        IMAGE_NAME = "my-python-test-image"
     }
 
     stages {
