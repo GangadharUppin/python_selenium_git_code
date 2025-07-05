@@ -15,7 +15,7 @@ class Test_Amazon:
         time.sleep(1)
 
     @pytest.mark.functional
-    def test_amazon_title(self, open_amazon):
+    def test_amazon_title(self):
         self.logging.info("amazon health check test")
         time.sleep(6)
         # self.logging.info(f"Title of amazon page is{self.driver.title}")
