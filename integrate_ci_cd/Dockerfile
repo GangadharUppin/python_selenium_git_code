@@ -3,7 +3,7 @@ FROM python:3.12-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Chrome dependencies first
+# Install required system dependencies
 RUN apt-get update && apt-get install -y \
     wget unzip curl gnupg ca-certificates \
     fonts-liberation libasound2 libatk-bridge2.0-0 \
@@ -22,23 +22,31 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
     apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# ✅ Check and print Chrome version (force fresh build)
-RUN google-chrome --version
+# ✅ Install matching Chromedriver (same major version as Chrome)
+RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
+    CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") && \
+    wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm /tmp/chromedriver.zip
 
+# ✅ Print versions for verification
+RUN google-chrome --version && chromedriver --version
 
 # Set working directory
 WORKDIR /app
 
-# Copy only requirements first (for better caching)
+# Copy only requirements first (for better Docker caching)
 COPY requirements.txt .
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy the rest of the code
+# Copy the rest of the project
 COPY . .
 
+# Optional: use local WebDriverManager cache (if you use it)
 ENV WDM_LOCAL=1
 
-# Default command
+# Default command to run tests
 CMD ["pytest", "tests", "-v"]

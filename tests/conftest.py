@@ -17,32 +17,38 @@ from utils import Utils
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
     # temp_profile = tempfile.mkdtemp()
-    options = Options()
-    os.system("pkill chrome")
-    os.system("pkill chromedriver")
+    # options = Options()
     # options = webdriver.ChromeOptions()
     # Ensuring a unique user-data-dir
     # options.add_argument(f"--user-data-dir={temp_profile}")
     # it is required when running from docker
-    options.add_argument('--profile-directory=Default')
+    # options.add_argument('--profile-directory=Default')
+    # options.add_argument("--headless=new")
+    # options.add_argument("--no-sandbox")
+    # options.add_argument("--disable-dev-shm-usage")
+    # options.add_argument("--disable-gpu")
+    # options.add_argument("--disable-extensions")
+    #
+    # # options.add_argument('--headless')
+    # # options.add_argument('--no-sandbox')
+    # # options.add_argument('--disable-dev-shm-usage')
+    #
+    # options.add_argument("--window-size=1920,1080")  # Important for rendering
+    #
+    # # driver = webdriver.Chrome(options=options)
+    # # Setup Service
+    # service = Service(ChromeDriverManager().install())
+    #
+    # # Pass the service to the WebDriver
+    # driver = webdriver.Chrome(service=service)
+    options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-extensions")
 
-    # options.add_argument('--headless')
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--disable-dev-shm-usage')
-
-    options.add_argument("--window-size=1920,1080")  # Important for rendering
-
-    # driver = webdriver.Chrome(options=options)
-    # Setup Service
-    service = Service(ChromeDriverManager().install())
-
-    # Pass the service to the WebDriver
-    driver = webdriver.Chrome(service=service)
+    # No need for ChromeDriverManager now — we hardcoded driver path
+    service = Service("/usr/local/bin/chromedriver")
+    driver = webdriver.Chrome(service=service, options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
