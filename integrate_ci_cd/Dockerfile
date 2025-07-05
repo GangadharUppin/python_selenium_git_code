@@ -39,16 +39,11 @@ RUN google-chrome --version
 #COPY requirements.txt .
 
 #COPY . /app
-
-
-# Install Python dependencies
-#RUN pip install --no-cache-dir -r requirements.txt
-
-# Set up virtual environment and install dependencies
-RUN python -m venv $VENV_DIR && \
-    . $VENV_DIR/bin/activate && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
+#
+#RUN python -m venv $VENV_DIR && \
+#    . $VENV_DIR/bin/activate && \
+#    pip install --upgrade pip && \
+#    pip install -r requirements.txt
 
 # Optional: Print working directory
 RUN echo "Working dir is: $(pwd)"
