@@ -14,6 +14,6 @@ class Utils:
         if status:
             return status
         else:
-            self.logging(f'ele not found')
+            self.logging.info(f'ele not found')
             self.driver.save_screenshot("page.png")
             return None
