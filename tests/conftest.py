@@ -6,6 +6,7 @@ import logging
 from selenium import webdriver
 import tempfile
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pom.amazon_homepage import *
 from utils import Utils
@@ -35,7 +36,11 @@ def session_driver():
     options.add_argument("--window-size=1920,1080")  # Important for rendering
 
     # driver = webdriver.Chrome(options=options)
-    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
+    # Setup Service
+    service = Service(ChromeDriverManager().install())
+
+    # Pass the service to the WebDriver
+    driver = webdriver.Chrome(service=service)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
