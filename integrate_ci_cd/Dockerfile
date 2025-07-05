@@ -47,4 +47,4 @@ ENV WDM_CACHE_DIR=/app/tests/.wdm
 ENV WDM_NO_CACHE=false
 
 # Default command
-CMD ["pytest", "tests", "-v"]
+#CMD ["pytest", "tests", "-v"]
