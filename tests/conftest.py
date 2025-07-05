@@ -16,8 +16,8 @@ from utils import Utils
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
     # temp_profile = tempfile.mkdtemp()
-    options = Options()
-
+    # options = Options()
+    options = webdriver.ChromeOptions()
     # Ensuring a unique user-data-dir
     # options.add_argument(f"--user-data-dir={temp_profile}")
     # it is required when running from docker
@@ -31,10 +31,11 @@ def session_driver():
     # options.add_argument('--headless')
     # options.add_argument('--no-sandbox')
     # options.add_argument('--disable-dev-shm-usage')
+
     options.add_argument("--window-size=1920,1080")  # Important for rendering
 
     # driver = webdriver.Chrome(options=options)
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
