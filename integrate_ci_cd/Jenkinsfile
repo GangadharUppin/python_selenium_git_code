@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'ubuntu' }  // Ensure your Jenkins agent has Docker and correct label
+    agent { label 'ubuntu' }
 
     environment {
         IMAGE_NAME = "python-selenium-test"
@@ -14,19 +14,17 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("${IMAGE_NAME}", "-f integrate_ci_cd/Dockerfile .")
-                }
+                sh '''
+                    docker build -t ${IMAGE_NAME} -f integrate_ci_cd/Dockerfile .
+                '''
             }
         }
 
-        stage('Run Tests in Docker') {
+        stage('Run Tests Using Docker (on EC2 host)') {
             steps {
-                script {
-                    docker.image("${IMAGE_NAME}").inside("-v /dev/shm:/dev/shm") {
-                        sh 'pytest tests -v'
-                    }
-                }
+                sh '''
+                    docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -v
+                '''
             }
         }
     }
