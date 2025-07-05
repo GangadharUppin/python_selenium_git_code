@@ -17,8 +17,10 @@ from utils import Utils
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
     # temp_profile = tempfile.mkdtemp()
-    # options = Options()
-    options = webdriver.ChromeOptions()
+    options = Options()
+    os.system("pkill chrome")
+    os.system("pkill chromedriver")
+    # options = webdriver.ChromeOptions()
     # Ensuring a unique user-data-dir
     # options.add_argument(f"--user-data-dir={temp_profile}")
     # it is required when running from docker
