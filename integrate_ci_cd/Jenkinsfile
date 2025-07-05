@@ -23,9 +23,19 @@ pipeline {
         stage('Run Tests Using Docker (on EC2 host)') {
             steps {
                 sh '''
-                    docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -v
+                    mkdir -p screenshots  # Ensure screenshots folder exists on host
+                    docker run --rm \
+                        -v /dev/shm:/dev/shm \
+                        -v $PWD/screenshots:/app/screenshots \
+                        ${IMAGE_NAME} pytest tests -v
                 '''
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
         }
     }
 }
