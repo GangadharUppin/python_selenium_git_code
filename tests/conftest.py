@@ -16,31 +16,21 @@ from utils import Utils
 @pytest.fixture(scope='session')
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
-    # temp_profile = tempfile.mkdtemp()
+    logging.info('[Session Setup] Launching browser...')
     options = Options()
-    # options = webdriver.ChromeOptions()
-    # Ensuring a unique user-data-dir
-    # options.add_argument(f"--user-data-dir={temp_profile}")
-    # it is required when running from docker
-    options.add_argument('--profile-directory=Default')
+
+    temp_profile = tempfile.mkdtemp()
+    options.add_argument(f'--user-data-dir={temp_profile}')
+
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
+    options.add_argument("--window-size=1920,1080")
 
-    # options.add_argument('--headless')
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--disable-dev-shm-usage')
-
-    options.add_argument("--window-size=1920,1080")  # Important for rendering
-
-    # driver = webdriver.Chrome(options=options)
-    # Setup Service
-    service = Service(ChromeDriverManager().install())
-
-    # Pass the service to the WebDriver
-    driver = webdriver.Chrome(service=service)
+    service = Service(ChromeDriverManager(driver_version="138.0.7204.92").install())
+    driver = webdriver.Chrome(service=service, options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
