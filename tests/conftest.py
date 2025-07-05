@@ -14,12 +14,13 @@ from utils import Utils
 @pytest.fixture(scope='session')
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
-    temp_profile = tempfile.mkdtemp()
+    # temp_profile = tempfile.mkdtemp()
     options = Options()
 
     # Ensuring a unique user-data-dir
-    options.add_argument(f"--user-data-dir={temp_profile}")
+    # options.add_argument(f"--user-data-dir={temp_profile}")
     # it is required when running from docker
+    options.add_argument('--profile-directory=Default')
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
