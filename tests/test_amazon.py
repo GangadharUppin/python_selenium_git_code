@@ -9,8 +9,9 @@ from utils import Utils
 
 class Test_Amazon:
     @pytest.mark.sanity
-    def test_open_amazon(self, open_amazon):
+    def test_open_amazon(self):
         self.logging.info("Amazon health check test")
+        self.driver.get("https://www.amazon.com")
         time.sleep(1)
 
     @pytest.mark.functional
