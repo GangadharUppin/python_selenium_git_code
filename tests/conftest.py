@@ -30,7 +30,7 @@ def session_driver():
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument("--window-size=1920,1080")  # Important for rendering
-    
+
     driver = webdriver.Chrome(options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')

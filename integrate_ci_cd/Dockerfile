@@ -38,7 +38,7 @@ RUN google-chrome --version
 
 #COPY requirements.txt .
 
-COPY . /app
+#COPY . /app
 
 
 # Install Python dependencies
