@@ -55,7 +55,14 @@ def open_flipkart(request, session_driver):
 @pytest.fixture(scope='class')
 def open_amazon(request, session_driver):
     logging.info(f'open amazon setup')
-    request.cls.driver.save_screenshot("screenshots\page.png")
+    base_dir = os.path.join(os.getcwd(), "screenshots")
+
+    # Create folder if not exists
+    os.makedirs(base_dir, exist_ok=True)
+
+    # Save screenshot using OS-independent path
+    screenshot_path = os.path.join(base_dir, "amazon.png")
+    request.cls.driver.save_screenshot(screenshot_path)
     request.cls.driver.get("https://www.amazon.com/")
     if request.cls.utils.is_ele_present(login):
         request.cls.utils.is_ele_present(login).click()
