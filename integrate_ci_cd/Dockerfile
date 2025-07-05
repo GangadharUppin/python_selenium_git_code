@@ -1,8 +1,16 @@
 # Use official Python image
 FROM python:3.12-slim
+# Set working directory
+WORKDIR /app
 
-# Metadata
-LABEL maintainer="gangadharuppin66@gnmail.com"
+# Copy only requirements first (for better caching)
+COPY requirements.txt .
 
-RUN echo "Working dir is: $(pwd)"
+# Install dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Copy the rest of the code
+COPY . .
+
+# Default command
+CMD ["pytest", "tests", "-v"]

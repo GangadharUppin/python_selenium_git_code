@@ -1,60 +1,32 @@
 pipeline {
-       agent { label 'ubuntu' }  // Label of your EC2 agent
-
-   parameters {
-        string(name: 'test_marker', defaultValue: 'smoke', description: 'Pytest marker to run test basd on marker')
-    }
+    agent { label 'ubuntu' }  // Make sure your Jenkins agent is labelled correctly
 
     environment {
-        REPO_URL = 'https://github.com/GangadharUppin/python_selenium_git_code.git'
-        IMAGE_NAME = "my-python-test-image"
+        IMAGE_NAME = "python-selenium-test"
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone Repo') {
+            steps {
+                git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git', branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    if (isUnix()) {
-                        // For Linux/Unix-based agents
-                        sh "rm -rf python_selenium_git_code"
-                        sh "git clone ${REPO_URL}"
-                    } else {
-                        // For Windows agents
-                        bat "git clone ${REPO_URL}"
+                    docker.build("${IMAGE_NAME}", "-f integrate_ci_cd/Dockerfile .")
+                }
+            }
+        }
+
+        stage('Run Tests in Docker') {
+            steps {
+                script {
+                    docker.image("${IMAGE_NAME}").inside {
+                        sh 'pytest tests -v'
                     }
                 }
-            }
-        }
-        stage('Build and Run Docker') {
-            steps {
-            script {
-                echo "Build and Run Docker ${pwd} and ${params.test_marker}."
-                def testCommand = "/venv/bin/pytest -v tests -m ${params.test_marker} --maxfail=1 --disable-warnings --tb=short"
-                if (isUnix()) {
-                    // For Linux/macOS
-                    sh "docker build -t ${IMAGE_NAME} -f integrate_ci_cd/Dockerfile ."
-                    sh "docker run --rm ${IMAGE_NAME}"
-                    echo "Docker image is built."
-    //              bat "docker run --rm ${IMAGE_NAME}"
-                    sh "docker run --rm ${IMAGE_NAME} ${testCommand}"
-                    echo "End of building docker image."
-                } else {
-                    // For Windows
-                    echo "Start of building docker image."
-                    bat "docker build --no-cache -t ${IMAGE_NAME}  -f integrate_ci_cd/Dockerfile ."
-                    // bat "docker build -t ${IMAGE_NAME} -f Docker/Dockerfile ."
-                    echo "Docker image is built."
-    //              bat "docker run --rm ${IMAGE_NAME}"
-                    bat "docker run --rm ${IMAGE_NAME} ${testCommand}"
-                    echo "End of building docker image."
-                }
-            }
-        }
-    }
-
-        stage('Print Message') {
-            steps {
-                echo "Repository cloned successfully!"
             }
         }
     }
