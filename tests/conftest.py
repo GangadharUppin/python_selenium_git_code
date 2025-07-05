@@ -34,7 +34,7 @@ def session_driver():
     options.add_argument("--window-size=1920,1080")  # Important for rendering
 
     # driver = webdriver.Chrome(options=options)
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install())
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
