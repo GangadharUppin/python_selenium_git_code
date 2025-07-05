@@ -29,7 +29,7 @@ def session_driver():
     options.add_argument("--disable-extensions")
     options.add_argument("--window-size=1920,1080")
 
-    service = Service(ChromeDriverManager(driver_version="138.0.7204.92").install())
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
