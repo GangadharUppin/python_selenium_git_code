@@ -38,7 +38,11 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy the rest of the code
 #COPY . .
 COPY . /app
-ENV WDM_LOCAL=1
+
+# Set WDM environment variables
+ENV WDM_LOCAL=true
+ENV WDM_CACHE_DIR=/app/tests/.wdm
+ENV WDM_NO_CACHE=false
 
 # Default command
 CMD ["pytest", "tests", "-v"]

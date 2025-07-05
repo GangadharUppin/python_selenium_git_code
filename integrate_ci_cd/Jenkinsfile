@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'ubuntu' }  // Make sure your Jenkins agent is labelled correctly
+    agent { label 'ubuntu' }  // Ensure your Jenkins agent has Docker and correct label
 
     environment {
         IMAGE_NAME = "python-selenium-test"
@@ -23,7 +23,7 @@ pipeline {
         stage('Run Tests in Docker') {
             steps {
                 script {
-                    docker.image("${IMAGE_NAME}").inside {
+                    docker.image("${IMAGE_NAME}").inside("-v /dev/shm:/dev/shm") {
                         sh 'pytest tests -v'
                     }
                 }
