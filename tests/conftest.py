@@ -11,11 +11,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pom.amazon_homepage import *
 from utils import Utils
 
-# os.environ['WDM_CACHE_DIR'] = os.path.join(tempfile.gettempdir(), '.wdm')
-# Create a session-level fixture to initialize the browser only once
 @pytest.fixture(scope='session')
 def session_driver():
-    logging.info('[Session Setup] Launching browser...')
     logging.info('[Session Setup] Launching browser...')
     options = Options()
 
@@ -62,11 +59,10 @@ def open_amazon(request, session_driver):
 
     # Save screenshot using OS-independent path
     screenshot_path = os.path.join(base_dir, "amazon.png")
-    request.cls.driver.save_screenshot(screenshot_path)
     request.cls.driver.get("https://www.amazon.com/")
+    request.cls.driver.save_screenshot(screenshot_path)
     if request.cls.utils.is_ele_present(login):
         request.cls.utils.is_ele_present(login).click()
-
     yield
     # request.cls.driver.close()
     logging.info(f'open amazon teardown')

@@ -9,7 +9,7 @@ venv/
 __pycache__/
 *.py[cod]
 *.pyo
-
+*.png
 # Ignore environment files
 *.env
 *.env.*

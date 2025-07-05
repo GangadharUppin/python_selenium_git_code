@@ -15,11 +15,10 @@ class Test_Amazon:
         time.sleep(1)
 
     @pytest.mark.functional
-    def test_amazon_title(self):
-        self.logging.info("amazon health check test")
-        time.sleep(6)
-        # self.logging.info(f"Title of amazon page is{self.driver.title}")
-        # self.driver.find_element(By.XPATH, search_bar).send_keys("iphone")
-        # time.sleep(2)
-        # self.driver.find_element(By.XPATH, search_icon).click()
-        # time.sleep(2)
+    def test_amazon_title(self, open_amazon):
+        self.logging.info(f"Title of amazon page is = {self.driver.title}")
+        self.driver.find_element(By.XPATH, search_bar).send_keys("iphone")
+        time.sleep(2)
+        self.driver.find_element(By.XPATH, search_icon).click()
+        time.sleep(2)
+
