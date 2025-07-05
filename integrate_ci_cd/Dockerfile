@@ -39,7 +39,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 #COPY . .
 COPY . /app
 
-RUN chmod -R 777 /app/tests/.wdm
+#RUN chmod -R 777 /app/tests/.wdm
 
 # Set WDM environment variables
 ENV WDM_LOCAL=true
