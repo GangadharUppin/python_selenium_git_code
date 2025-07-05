@@ -55,6 +55,7 @@ def open_flipkart(request, session_driver):
 @pytest.fixture(scope='class')
 def open_amazon(request, session_driver):
     logging.info(f'open amazon setup')
+    request.cls.driver.save_screenshot("page.png")
     request.cls.driver.get("https://www.amazon.com/")
     if request.cls.utils.is_ele_present(login):
         request.cls.utils.is_ele_present(login).click()
