@@ -21,6 +21,10 @@ RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dea
 # Optional: Check Chrome version (for debugging)
 RUN google-chrome --version
 
+# Fix Selenium cache path
+ENV XDG_CACHE_HOME=/app/.cache
+RUN mkdir -p /app/.cache/selenium
+
 # Set working directory
 WORKDIR /app
 
