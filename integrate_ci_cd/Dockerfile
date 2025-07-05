@@ -38,5 +38,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy the rest of the code
 COPY . .
 
+ENV WDM_LOCAL=1
+
 # Default command
 CMD ["pytest", "tests", "-v"]

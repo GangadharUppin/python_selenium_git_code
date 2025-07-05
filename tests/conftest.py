@@ -6,18 +6,15 @@ import logging
 from selenium import webdriver
 import tempfile
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pom.amazon_homepage import *
 from utils import Utils
 
-
+# os.environ['WDM_CACHE_DIR'] = os.path.join(tempfile.gettempdir(), '.wdm')
 # Create a session-level fixture to initialize the browser only once
 @pytest.fixture(scope='session')
 def session_driver():
     logging.info('[Session Setup] Launching browser...')
-    custom_cache_path = os.path.join(os.getcwd(), ".wdm")
-    driver_path = ChromeDriverManager(path=custom_cache_path).install()
     # temp_profile = tempfile.mkdtemp()
     options = Options()
 
@@ -37,8 +34,7 @@ def session_driver():
     options.add_argument("--window-size=1920,1080")  # Important for rendering
 
     # driver = webdriver.Chrome(options=options)
-    service = Service(driver_path)
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     yield driver
     logging.info('[Session Teardown] Closing browser...')
     driver.quit()
