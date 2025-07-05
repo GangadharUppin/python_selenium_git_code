@@ -1,3 +1,5 @@
+import os
+
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -20,3 +22,12 @@ class Utils:
             self.logging.info(f'element is not found : {status}')
             self.driver.save_screenshot("page.png")
             return None
+
+    def fail_testcase(self, name_of_image, exception_is):
+        base_dir = os.path.join(os.getcwd(), "screenshots")
+        # Create folder if not exists
+        os.makedirs(base_dir, exist_ok=True)
+        # Save screenshot using OS-independent path
+        screenshot_path = os.path.join(base_dir, f"{name_of_image}.png")
+        self.driver.save_screenshot(screenshot_path)
+        raise Exception(f'Failed with exception: {exception_is}')
