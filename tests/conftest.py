@@ -1,3 +1,4 @@
+import os
 import time
 
 import pytest
@@ -9,7 +10,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pom.amazon_homepage import *
 from utils import Utils
 
-
+os.environ['WDM_CACHE_DIR'] = os.path.join(tempfile.gettempdir(), '.wdm')
 # Create a session-level fixture to initialize the browser only once
 @pytest.fixture(scope='session')
 def session_driver():
