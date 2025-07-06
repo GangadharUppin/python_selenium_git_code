@@ -87,7 +87,7 @@ class Test_Amazon:
         self.logging.info(f'ele attribute is as : {ele.get_attribute("aria-label")}')
         self.logging.info(f'ele pro is as 1: {ele.get_property("href")}')
 
-    @pytest.mark.functional1
+    @pytest.mark.functional
     def test_action_chains(self):
         try:
             # for workarond
