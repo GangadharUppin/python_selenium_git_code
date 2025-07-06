@@ -1,6 +1,7 @@
 import pytest
 import time
 
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from pom.amazon_homepage import *
@@ -72,4 +73,33 @@ class Test_Amazon:
     def test_implicit_wait(self):
         self.driver.implicitly_wait(10)
         self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
+
+    @pytest.mark.functional
+    def test_web_element_methods(self):
+        """
+        for example suppose if we use get_attribute() it will fetch always from html DOM page
+        Suppose druning run time any value changed , if we use get_property() it will fetch
+        changed value. not from HTML
+        it uses updated value .
+        """
+        self.driver.implicitly_wait(10)
+        ele = self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
+        self.logging.info(f'ele attribute is as : {ele.get_attribute("aria-label")}')
+        self.logging.info(f'ele pro is as 1: {ele.get_property("href")}')
+
+    @pytest.mark.functional1
+    def test_action_chains(self):
+        try:
+            # for workarond
+            self.driver.refresh()
+            ele = self.wait.until(EC.visibility_of_element_located((By.XPATH, amazon_signin)))
+            action_chain = ActionChains(self.driver)
+            action_chain.move_to_element(ele).perform()
+            time.sleep(5)
+            elements = self.driver.find_elements(By.XPATH, elements_amazon_sign_in)
+            for ele_text in elements:
+                self.logging.info(f'text on element is: {ele_text.text}')
+        except Exception as e:
+            self.logging.info(f"Testcase failed with exception: {e}")
+            self.utils.fail_testcase("test_action_chains", e)
 
