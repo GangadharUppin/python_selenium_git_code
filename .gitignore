@@ -5,6 +5,9 @@ venv/
 # Ignore JetBrains IDE settings (e.g. PyCharm)
 .idea/
 
+allure-report
+allure-results
+
 # Ignore __pycache__ and Python bytecode
 __pycache__/
 *.py[cod]
