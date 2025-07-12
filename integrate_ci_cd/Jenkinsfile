@@ -27,15 +27,28 @@ pipeline {
         stage('Run Tests Using Docker (on EC2 host)') {
             steps {
                 sh '''
-                     docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -vm ${params.suite}
+                     #!/bin/bash
+                     docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -vm ${suite}
                 '''
             }
         }
     }
 
+
     post {
         always {
             archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            emailext (
+            subject: "Build Status - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """\
+                <p>The build has completed.</p>
+                <p><b>Job:</b> ${env.JOB_NAME}<br>
+                <b>Build Number:</b> ${env.BUILD_NUMBER}<br>
+                <b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+            """,
+            mimeType: 'text/html',
+            to: "akhilagangadharuppin@gmail.com"
+            )
         }
     }
 }
