@@ -5,6 +5,10 @@ pipeline {
         IMAGE_NAME = "python-selenium-test"
     }
 
+    parameters {
+        string(name: 'suite', defaultValue: 'functional', description: 'Test Suite to run')
+    }
+
     stages {
         stage('Clone Repo') {
             steps {
@@ -23,7 +27,7 @@ pipeline {
         stage('Run Tests Using Docker (on EC2 host)') {
             steps {
                 sh '''
-                     docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -v
+                     docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -vm ${params.suite}
                 '''
             }
         }

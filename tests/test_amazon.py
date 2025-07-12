@@ -69,7 +69,7 @@ class Test_Amazon:
             self.utils.fail_testcase("test_search_item", e)
 
 
-    @pytest.mark.functional
+    @pytest.mark.functional1
     def test_implicit_wait(self):
         self.driver.implicitly_wait(10)
         self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
