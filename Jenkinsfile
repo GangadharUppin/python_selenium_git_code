@@ -56,15 +56,16 @@ pipeline {
         }
     }
 
-    post {
+   post {
         always {
-            echo 'Cleaning up...'
-        }
-        success {
-            echo 'Build and tests successful.'
-        }
-        failure {
-            echo 'Build or tests failed.'
+            //archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            emailext (
+                subject: "Test Email - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "<p>This is a test email from Jenkinsfile</p>",
+                mimeType: 'text/html',
+                to: "akhilagangadharuppin@gmail.com",
+                attachLog: true
+            )
         }
     }
 }

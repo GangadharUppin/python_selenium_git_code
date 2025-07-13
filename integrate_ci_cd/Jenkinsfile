@@ -47,19 +47,4 @@ pipeline {
             )
         }
     }
-//     post {
-//         always {
-//           script {
-//             try {
-//               emailext(
-//                 subject: "Pipeline Email Test",
-//                 body: "Test email from Jenkins pipeline",
-//                 to: "akhilagangadharuppin@gmail.com"
-//               )
-//             } catch (e) {
-//               echo "Email failed: ${e.message}"
-//             }
-//           }
-//         }
-//     }
 }
