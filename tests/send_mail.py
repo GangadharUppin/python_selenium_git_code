@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 
 # Jenkins details
 JENKINS_URL = "http://localhost:8080/"
-JOB_NAME = "your-job-name"
+JOB_NAME = "jenkins_job"
 USERNAME = "your-jenkins-username"
 API_TOKEN = "your-api-token"
 
