@@ -47,7 +47,8 @@ pipeline {
                 <b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
             """,
             mimeType: 'text/html',
-            to: "akhilagangadharuppin@gmail.com"
+            to: "akhilagangadharuppin@gmail.com",
+            attachLog: true
             )
         }
     }
