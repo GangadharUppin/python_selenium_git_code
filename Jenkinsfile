@@ -48,7 +48,7 @@ pipeline {
                     } else {
                         bat '''
                             call %VENV_DIR%\\Scripts\\activate
-                            pytest tests -vsm hello --maxfail=1 --disable-warnings --tb=short
+                            pytest tests/ --maxfail=1 --disable-warnings --tb=short
                         '''
                     }
                 }
@@ -57,13 +57,13 @@ pipeline {
     }
 
     post {
-            always {
-                emailext (
-                    subject: "Simple Post Email",
-                    body: "Post section executed",
-                    to: "akhilagangadharuppin@gmail.com"
-                )
-            }
+        always {
+            echo '📧 Attempting to send email...'
+            emailext (
+                subject: "Simple Email from Jenkins Pipeline",
+                body: "Testing post block email sending.",
+                to: "akhilagangadharuppin@gmail.com"
+            )
         }
+    }
 }
-
