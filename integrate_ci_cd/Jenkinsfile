@@ -39,16 +39,11 @@ pipeline {
         always {
             archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
             emailext (
-            subject: "Build Status - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            body: """\
-                <p>The build has completed.</p>
-                <p><b>Job:</b> ${env.JOB_NAME}<br>
-                <b>Build Number:</b> ${env.BUILD_NUMBER}<br>
-                <b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-            """,
-            mimeType: 'text/html',
-            to: "akhilagangadharuppin@gmail.com",
-            attachLog: true
+                subject: "Test Email - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "<p>This is a test email from Jenkinsfile</p>",
+                mimeType: 'text/html',
+                to: "akhilagangadharuppin@gmail.com",
+                attachLog: true
             )
         }
     }
