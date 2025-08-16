@@ -1,37 +1,6 @@
-## Use official lightweight Python 3.12 image
-#FROM python:3.12-slim
-#
-## Set working directory inside the container
-#WORKDIR /app
-#
-## print pwd
-#RUN pwd
-#
-## Environment settings for cleaner Python logs and faster installs
-#ENV PYTHONDONTWRITEBYTECODE=1
-#ENV PYTHONUNBUFFERED=1
-#
-## Install system dependencies (add more if needed, like for Selenium)
-#RUN apt-get update && apt-get install -y --no-install-recommends \
-#    gcc curl build-essential libssl-dev libffi-dev \
-#    && apt-get clean && rm -rf /var/lib/apt/lists/*
-#
-## Install Python dependencies
-#COPY requirements.txt .
-#RUN pip install --upgrade pip && pip install -r requirements.txt
-#
-## Copy your project files
-#COPY . .
-#
-## Default command (can be overridden in Jenkins)
-#CMD ["pytest", "tests/"]
-
-
 # Use official Python image
 FROM python:3.12-slim
-
 ENV DEBIAN_FRONTEND=noninteractive
-
 # Install Chrome dependencies first
 RUN apt-get update && apt-get install -y \
     wget unzip curl gnupg ca-certificates \
@@ -44,7 +13,8 @@ RUN apt-get update && apt-get install -y \
 
 # Install Java (required by Allure)
 RUN apt-get update && apt-get insta ll -y \
-    openjdk-11-jre wget unzip && \
+    \
+    -11-jre wget unzip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Allure CLI
@@ -53,7 +23,6 @@ RUN wget https://github.com/allure-framework/allure2/releases/download/2.29.0/al
     mv /opt/allure-2.29.0 /opt/allure && \
     ln -s /opt/allure/bin/allure /usr/bin/allure && \
     rm allure.zip \
-
 
 # Install Google Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
@@ -90,3 +59,8 @@ COPY . /app
 
 # Default command, need this when we run docker directly without jenkins jobs
 #CMD ["pytest", "tests", "-v"]
+
+
+
+
+
