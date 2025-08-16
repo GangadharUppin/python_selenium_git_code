@@ -90,3 +90,4 @@ COPY . /app
 
 # Default command, need this when we run docker directly without jenkins jobs
 #CMD ["pytest", "tests", "-v"]
+
