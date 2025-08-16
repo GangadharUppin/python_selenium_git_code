@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "python-selenium-test"
     }
 
+
     stages {
         stage('Clone Repo') {
             steps {
@@ -35,7 +36,7 @@ pipeline {
         always {
             //archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
             emailext (
-                subject: "Test Email - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                subject: "Test Email is as following  - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "<p>This is a test email from Jenkinsfile</p>",
                 mimeType: 'text/html',
                 to: "akhilagangadharuppin@gmail.com",
@@ -44,3 +45,7 @@ pipeline {
         }
     }
 }
+
+
+
+
