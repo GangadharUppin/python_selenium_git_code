@@ -14,17 +14,17 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 
-# Install Java (required by Allure)
-RUN apt-get update && apt-get insta ll -y \
-    openjdk-11-jre wget unzip && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install Allure CLI
-RUN wget https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.zip -O allure.zip && \
-    unzip allure.zip -d /opt/ && \
-    mv /opt/allure-2.29.0 /opt/allure && \
-    ln -s /opt/allure/bin/allure /usr/bin/allure && \
-    rm allure.zip \
+## Install Java (required by Allure)
+#RUN apt-get update && apt-get insta ll -y \
+#    openjdk-11-jre wget unzip && \
+#    rm -rf /var/lib/apt/lists/*
+#
+## Install Allure CLI
+#RUN wget https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.zip -O allure.zip && \
+#    unzip allure.zip -d /opt/ && \
+#    mv /opt/allure-2.29.0 /opt/allure && \
+#    ln -s /opt/allure/bin/allure /usr/bin/allure && \
+#    rm allure.zip \
 
 # Install Google Chrome
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | \
