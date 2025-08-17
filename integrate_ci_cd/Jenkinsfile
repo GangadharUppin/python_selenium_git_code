@@ -28,16 +28,18 @@ pipeline {
             steps {
                 sh '''
                      #!/bin/bash
-                     docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -vm ${suite}
+                     docker run --rm -v $PWD/screenshots:/app/screenshots -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -vm ${suite}
                 '''
             }
         }
     }
 
-
     post {
         always {
-            //archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
+            // Store screenshots into Jenkins artifacts
+            archiveArtifacts artifacts: 'screenshots/**/*.png', allowEmptyArchive: true
+
+            // Send email
             emailext (
                 subject: "Test Email - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "<p>This is a test email from Jenkinsfile</p>",
