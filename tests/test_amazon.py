@@ -71,8 +71,11 @@ class Test_Amazon:
 
     @pytest.mark.functional1
     def test_implicit_wait(self):
-        self.driver.implicitly_wait(10)
-        self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
+        try:
+            self.driver.implicitly_wait(10)
+            self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
+        except Exception as e:
+            self.utils.fail_testcase("test_implicit_wait", e)
 
     @pytest.mark.functional
     def test_web_element_methods(self):
@@ -82,10 +85,13 @@ class Test_Amazon:
         changed value. not from HTML
         it uses updated value .
         """
-        self.driver.implicitly_wait(10)
-        ele = self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
-        self.logging.info(f'ele attribute is as : {ele.get_attribute("aria-label")}')
-        self.logging.info(f'ele pro is as 1: {ele.get_property("href")}')
+        try:
+            self.driver.implicitly_wait(10)
+            ele = self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
+            self.logging.info(f'ele attribute is as : {ele.get_attribute("aria-label")}')
+            self.logging.info(f'ele pro is as 1: {ele.get_property("href")}')
+        except Exception as e:
+            self.utils.fail_testcase("test_implicit_wait", e)
 
     @pytest.mark.functional
     def test_action_chains(self):
