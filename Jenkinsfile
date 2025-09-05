@@ -30,7 +30,6 @@ pipeline {
         }
     }
 
-
     post {
         always {
             //archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
