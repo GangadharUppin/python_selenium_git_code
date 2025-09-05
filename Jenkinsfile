@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git', branch: 'master'
+//                 git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git', branch: 'master'
+                deleteDir()  // clean workspace
+                checkout scm
             }
         }
 
