@@ -25,7 +25,7 @@ class Test_Amazon:
             self.logging.info(f'TC failed with exception: {e}')
             self.utils.fail_testcase("test_search_item", e)
 
-    @pytest.mark.functional
+    @pytest.mark.sanity
     def test_amazon_title(self):
         try:
             self.logging.info(f"Title of amazon page is = {self.driver.title}")
@@ -69,13 +69,14 @@ class Test_Amazon:
             self.utils.fail_testcase("test_search_item", e)
 
 
-    @pytest.mark.functional1
+    @pytest.mark.sanity
     def test_implicit_wait(self):
         try:
             self.driver.implicitly_wait(10)
             self.driver.find_element(By.XPATH, "//a[@aria-label='Amazon']")
         except Exception as e:
             self.utils.fail_testcase("test_implicit_wait", e)
+
 
     @pytest.mark.functional
     def test_web_element_methods(self):
@@ -108,4 +109,3 @@ class Test_Amazon:
         except Exception as e:
             self.logging.info(f"Testcase failed with exception: {e}")
             self.utils.fail_testcase("test_action_chains", e)
-
