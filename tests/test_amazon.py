@@ -77,6 +77,7 @@ class Test_Amazon:
         except Exception as e:
             self.utils.fail_testcase("test_implicit_wait", e)
 
+
     @pytest.mark.functional
     def test_web_element_methods(self):
         """
