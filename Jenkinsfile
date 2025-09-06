@@ -1,47 +1,19 @@
 pipeline {
-    agent { label 'ubuntu' }
-
-    environment {
-        IMAGE_NAME = "python-selenium-test"
-    }
-
+    agent any   // Make sure you have a Windows agent node
     stages {
-        stage('Clone Repo') {
+        stage('Checkout Code') {
             steps {
-//                 git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git', branch: 'master'
-                deleteDir()  // clean workspace
-                checkout scm
+                git branch: 'master', url: 'https://github.com/YourUserName/YourRepo.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Run Test') {
             steps {
-                sh '''
-                    docker build -t ${IMAGE_NAME} -f integrate_ci_cd/Dockerfile .
-                '''
+                bat """
+                cd C:\\Users\\ACER\\Desktop\\Learning\\python_selenium_git_code
+                call venv\\Scripts\\activate
+                pytest -v -s -m sanity
+                """
             }
-        }
-
-        stage('Run Tests Using Docker (on EC2 host)') {
-            steps {
-                sh '''
-                     #!/bin/bash
-                     docker run --rm -v /dev/shm:/dev/shm ${IMAGE_NAME} pytest tests -vm sanity
-                '''
-            }
-        }
-    }
-
-    post {
-        always {
-            //archiveArtifacts artifacts: 'screenshots/*.png', allowEmptyArchive: true
-            emailext (
-                subject: "Test Email - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "<p>This is a test email from Jenkinsfile</p>",
-                mimeType: 'text/html',
-                to: "akhilagangadharuppin@gmail.com",
-                attachLog: true
-            )
         }
     }
 }
