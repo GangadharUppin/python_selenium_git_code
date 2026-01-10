@@ -2,45 +2,67 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'suite', defaultValue: 'sanity', description: 'Test Suite to run')
+        string(
+            name: 'suite',
+            defaultValue: 'sanity',
+            description: 'Pytest marker to run'
+        )
     }
 
     stages {
-        stage('Pull the code') {
+
+        stage('Clean Workspace') {
             steps {
-                git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git',
-                    branch: 'master'
+                deleteDir()
             }
         }
 
-        stage('Setup venv') {
+        stage('Checkout Code') {
             steps {
-                bat """
+                // Multibranch pipeline automatically checks out
+                // the correct branch or PR merge commit
+                checkout scm
+            }
+        }
+
+        stage('Setup Python Virtual Environment') {
+            steps {
+                bat '''
+                python --version
                 python -m venv venv
                 venv\\Scripts\\pip install --upgrade pip
                 venv\\Scripts\\pip install -r requirements.txt
-                """
+                '''
             }
         }
 
-        stage('Run the test') {
+        stage('Run Pytest') {
             steps {
-                bat """
-                venv\\Scripts\\python.exe -m pytest -v -m %suite%
-                """
+                script {
+                    def marker = params.suite?.trim()
+                    if (marker) {
+                        bat """
+                        venv\\Scripts\\python.exe -m pytest -v -m ${marker}
+                        """
+                    } else {
+                        bat """
+                        venv\\Scripts\\python.exe -m pytest -v
+                        """
+                    }
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'always running'
-        }
-        failure {
-            echo 'on failure'
+            echo "Build completed for branch: ${env.BRANCH_NAME}"
         }
         success {
-            echo 'on success'
+            echo "✅ Tests passed"
+        }
+        failure {
+            echo "❌ Tests failed"
         }
     }
 }
