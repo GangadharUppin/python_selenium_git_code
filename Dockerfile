@@ -25,8 +25,6 @@
 #
 ## Default command (can be overridden in Jenkins)
 #CMD ["pytest", "tests/"]
-
-
 # Use official Python image
 FROM python:3.12-slim
 
