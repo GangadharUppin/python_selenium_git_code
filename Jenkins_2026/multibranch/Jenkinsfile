@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'suite', defaultValue: 'sanity', description: 'Test Suite to run')
+    }
+
+    stages {
+        stage('Pull the code') {
+            steps {
+                git url: 'https://github.com/GangadharUppin/python_selenium_git_code.git',
+                    branch: 'master'
+            }
+        }
+
+        stage('Setup venv') {
+            steps {
+                bat """
+                python -m venv venv
+                venv\\Scripts\\pip install --upgrade pip
+                venv\\Scripts\\pip install -r requirements.txt
+                """
+            }
+        }
+
+        stage('Run the test') {
+            steps {
+                bat """
+                venv\\Scripts\\python.exe -m pytest -v -m %suite%
+                """
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'always running'
+        }
+        failure {
+            echo 'on failure'
+        }
+        success {
+            echo 'on success'
+        }
+    }
+}
