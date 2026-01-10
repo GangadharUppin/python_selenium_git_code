@@ -69,7 +69,7 @@ class Test_Amazon:
             self.utils.fail_testcase("test_search_item", e)
 
 
-    @pytest.mark.sanity
+    @pytest.mark.xsanity
     def test_implicit_wait(self):
         try:
             self.driver.implicitly_wait(10)

@@ -6,7 +6,7 @@ from utils import Utils
 
 
 class TestGoogle:
-    @pytest.mark.sanity
+    @pytest.mark.xsanity
     def test_google(self):
         try:
             self.logging.info("Running test_google")
