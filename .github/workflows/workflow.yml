@@ -16,8 +16,8 @@ on:
         required: true
         default: 'sanity'
  # ⏰ Scheduled run every 5 minutes
-  schedule:
-    - cron: "*/5 * * * *"
+#  schedule:
+#    - cron: "*/5 * * * *"
 
 jobs:
   test:
