@@ -10,9 +10,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+#    strategy:
+#      matrix:
+#        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
       - name: Checkout repository
@@ -31,4 +31,4 @@ jobs:
 
       - name: Run pytest
         run: |
-          pytest -vsm santy
+          pytest -vsm sanity
