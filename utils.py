@@ -5,8 +5,6 @@ from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 import subprocess
 import os
-
-
 class Utils:
     def __init__(self, logging, driver):
         self.logging = logging
