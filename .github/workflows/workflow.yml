@@ -15,6 +15,9 @@ on:
         description: 'Test suite to run (sanity / smoke / regression)'
         required: true
         default: 'sanity'
+ # ⏰ Scheduled run every 5 minutes
+  schedule:
+    - cron: "*/5 * * * *"
 
 jobs:
   test:
